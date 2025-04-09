@@ -36,6 +36,7 @@ AUTH_USER_MODEL = 'ping.User'
 
 INSTALLED_APPS = [
     'ping.apps.PingConfig',
+    'jazzmin',
     'django.contrib.admindocs',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -137,3 +138,28 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+JAZZMIN_SETTINGS = {
+    "site_title": "Guardians Admin",
+    "site_brand": "Guardians",
+    "welcome_sign": "Welcome to Guardians Admin",
+    "theme": "flatly",
+    "show_sidebar": True,
+    "navigation_expanded": True,
+    "show_version": False,
+    "copyright": "Guardians",
+    "favicon": "img/favicon.webp",
+    "site_logo": "img/guardians.webp",
+    "icons": {
+        "admin.LogEntry": "fas fa-clipboard-list",
+        "auth.Group": "fas fa-users-cog",
+        "ping.Alert": "fas fa-bell",
+        "ping.AuditLog": "fas fa-file-alt",
+        "ping.Notification": "fas fa-bullhorn",
+        "ping.SafetyTip": "fas fa-shield-alt",
+        "ping.User": "fas fa-user",
+    },
+    "search_model": ["ping.User", "ping.Alert", "ping.Notification"],
+}
+
