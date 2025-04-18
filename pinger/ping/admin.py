@@ -117,16 +117,16 @@ class AlertAdmin(admin.ModelAdmin):
     and actions to manage alerts, including resolution and escalation.
     """
     list_display = (
-        'id', 'category', 'severity', 'status', 'created_date', 'reported_by', 'acknowledged_by', 'resolved_by'
+        'id', 'category', 'severity', 'status', 'created_date', 'reported_by', 'confirmed_by', 'resolved_by'
     )
     list_filter = (
-        'category', 'severity', 'status', 'created_date', 'reported_by', 'acknowledged_by', 'resolved_by'
+        'category', 'severity', 'status', 'created_date', 'reported_by', 'confirmed_by', 'resolved_by'
     )
     search_fields = ('description_notes', 'location', 'reported_by__email', 'acknowledged_by__email')
     date_hierarchy = 'created_date'
     ordering = ['-created_date']
     
-    actions = ['resolve_alert', 'escalate_alert']
+    actions = ['resolve_alert', 'escalate_alert', 'dismissed_alert']
 
     def resolve_alert(self, request, queryset):
         """Action to resolve selected alerts."""

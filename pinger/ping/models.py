@@ -59,11 +59,12 @@ class Alert(models.Model):
         LOW = 'low', 'Low'
         MEDIUM = 'medium', 'Medium'
         HIGH = 'high', 'High'
+        CRITICAL = 'critical', 'Critical'
 
     class Status(models.TextChoices):
         NEW = 'new', 'New'
         DISMISSED = 'dismissed', 'Dismissed'
-        ACKNOWLEDGED = 'acknowledged', 'Acknowledged'
+        CONFIRMED = 'confirmed', 'Confirmed'
         RESOLVED = 'resolved', 'Resolved'
         ESCALATED = 'escalated', 'Escalated'
 
@@ -130,11 +131,11 @@ class Alert(models.Model):
         blank=False
     )
 
-    acknowledged_by = models.ForeignKey(
+    confirmed_by = models.ForeignKey(
         'User',
         on_delete=models.SET_NULL,
-        related_name="alerts_acknowledged",
-        verbose_name="Acknowledged By",
+        related_name="alerts_confirmed",
+        verbose_name="Confirmed By",
         null=True,
         blank=True
     )
@@ -328,7 +329,7 @@ class AuditLog(models.Model):
     class Action(models.TextChoices):
         CREATED = 'created', 'Created'
         DISMISSED = 'dismissed', 'Dismissed'
-        ACKNOWLEDGED = 'acknowledged', 'Acknowledged'
+        CONFIRMED = 'confirmed', 'Confirmed'
         RESOLVED = 'resolved', 'Resolved'
         ESCALATED = 'escalated', 'Escalated'
         
