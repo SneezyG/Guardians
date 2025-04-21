@@ -48,22 +48,51 @@ def get_user_role(user):
 
 
 
+
+
 @receiver(pre_save, sender=Alert)
-def log_alert_status_change(sender, instance, **kwargs):
+def track_old_instance(sender, instance, **kwargs):
+    """
+    A pre-save signal on alert model that save old alert object as an attribute
+    on the new instance. 
+    """
+
+    if instance.pk:
+        try:
+            # Retrieve the old instance (before save)
+            instance._old_instance = Alert.objects.get(pk=instance.pk)
+        except Alert.DoesNotExist:
+            instance._old_instance = None
+    else:
+        # If this is a new instance, no old instance attributes
+        instance._old_instance = None
+
+
+
+
+
+
+
+@receiver(post_save, sender=Alert)
+def log_alert_status_change(sender, instance, created, **kwargs):
+    """
+    A post-save signal on alert model that log & broadcast actions(status changes) 
+    on alert instances.
+    """
+
     request = get_current_request()
     user = getattr(request, 'user', None)
     ip = request.META.get('REMOTE_ADDR') if request else None
     device = request.META.get('HTTP_USER_AGENT') if request else None
 
-    # If we can't get a valid user, bail out
     if not user or not user.is_authenticated:
         return
 
     # Infer role from user
     role = get_user_role(user)
 
-    # New alert = log as CREATED
-    if not instance.pk:
+    # If the instance is new, log it as CREATED
+    if created:
         AuditLog.objects.create(
             alert=instance,
             user=user,
@@ -74,14 +103,16 @@ def log_alert_status_change(sender, instance, **kwargs):
         )
         return
 
-    try:
-        old_instance = Alert.objects.get(pk=instance.pk)
-    except Alert.DoesNotExist:
+    # If the old instance exists, compare statuses
+    old_instance = instance._old_instance
+    if old_instance is None:
         return
 
+    # No change in status, so no need to log
     if old_instance.status == instance.status:
-        return  # No change to status, no log
+        return
 
+    # Define status-to-action mapping
     status_to_action = {
         Alert.Status.RESOLVED: AuditLog.Action.RESOLVED,
         Alert.Status.ESCALATED: AuditLog.Action.ESCALATED,
@@ -93,6 +124,7 @@ def log_alert_status_change(sender, instance, **kwargs):
     if not action:
         return
 
+    # Log the status change
     AuditLog.objects.create(
         alert=instance,
         user=user,
@@ -101,6 +133,9 @@ def log_alert_status_change(sender, instance, **kwargs):
         ip_address=ip,
         device_info=device
     )
+
+    # Broadcast the update
+
 
 
 
