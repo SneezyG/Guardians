@@ -16,12 +16,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from ping.views import ListAlertsView
 
 
 
 urlpatterns = [
     path('admin/doc/', include('django.contrib.admindocs.urls')),
     path('admin/', admin.site.urls),
+    path('', ListAlertsView.as_view(), name='list-alerts'),
     path('api/', include('ping.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

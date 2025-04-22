@@ -4,6 +4,16 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth import get_user_model
 from django.contrib.auth.admin import UserAdmin
 from .models import Alert, Notification, SafetyTip, AuditLog
+from rest_framework_simplejwt.token_blacklist.models import BlacklistedToken, OutstandingToken
+
+
+
+
+
+
+# Unregister models from the token_blacklist app
+admin.site.unregister(BlacklistedToken)
+admin.site.unregister(OutstandingToken)
 
 
 

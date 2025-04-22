@@ -9,12 +9,11 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     """
     Custom user model extending Django's AbstractUser.
-    Email is used as the username, and we rely on built-in fields for 
-    authentication and permissions (first_name, last_name, is_active, groups).
+    Add two custom fields: phone_number & department
     """
 
     phone_number = models.CharField(
-        max_length=20,
+        max_length=30,
         verbose_name="Phone Number",
         null=True,
         blank=True
@@ -162,7 +161,7 @@ class Alert(models.Model):
     )
 
     def __str__(self):
-        return f"Alert {self.id} - {self.type} at {self.location}"
+        return f"Alert {self.id} - {self.category} at {self.location}"
 
     class Meta:
         verbose_name = "Alert"

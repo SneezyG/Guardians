@@ -6,7 +6,12 @@ from rest_framework import generics, permissions, status
 from django.utils import timezone
 from .models import Alert, AuditLog, SafetyTip
 from .permissions import IsAdminSafetyOrSuper
-from .serializers import MyTokenObtainPairSerializer, AlertSerializer, AuditLogSerializer
+from .serializers import (
+    MyTokenObtainPairSerializer,
+    AlertSerializer, 
+    AuditLogSerializer, 
+    SafetyTipSerializer,
+)
 from django_filters.rest_framework import DjangoFilterBackend
 from .filters import AlertFilter, AuditLogFilter
 
@@ -260,4 +265,4 @@ class SafetyTipListView(generics.ListAPIView):
 
     queryset = SafetyTip.objects.all()
     serializer_class = SafetyTipSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [permissions.IsAuthenticated]

@@ -60,7 +60,7 @@ class AuditLogSerializer(serializers.ModelSerializer):
 
 
 
-class SafetyTipSerializer(ModelSerializer):
+class SafetyTipSerializer(serializers.ModelSerializer):
     """
     Includes all safety-tips attributes for instances at API endpoint
     """

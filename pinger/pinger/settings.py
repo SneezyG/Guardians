@@ -30,6 +30,7 @@ DEBUG = os.getenv("DEBUG", "False") == "True"
 
 ALLOWED_HOSTS = []
 
+LOGIN_REDIRECT_URL = '/'
 
 AUTH_USER_MODEL = 'ping.User'
 
@@ -38,6 +39,7 @@ AUTH_USER_MODEL = 'ping.User'
 INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
+    'django_filters',
     'ping.apps.PingConfig',
     'jazzmin',
     'django.contrib.admindocs',
@@ -100,6 +102,10 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+        'rest_framework.renderers.BrowsableAPIRenderer',
+    ],
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
