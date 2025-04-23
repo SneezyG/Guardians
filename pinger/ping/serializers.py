@@ -11,15 +11,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     Add custom attribute to users token at authentication
     """
 
-    @classmethod
-    def get_token(cls, user):
-        token = super().get_token(user)
+    def validate(self, attrs):
+        data = super().validate(attrs)
 
-        # Add custom claims
-        token['username'] = user.username
-        token['email'] = user.email
-        token['groups'] = list(user.groups.values_list('name', flat=True))
-        return token
+        data['username'] = self.user.username
+        data['email'] = self.user.email
+        data['groups'] = list(self.user.groups.values_list('name', flat=True))
+
+        return data
 
 
 
@@ -38,6 +37,7 @@ class AlertSerializer(serializers.ModelSerializer):
     class Meta:
         model = Alert
         fields = '__all__'
+        read_only_fields = ['reported_by']
 
 
 

@@ -23,6 +23,8 @@ class LogoutView(APIView):
     """
     Invalidate the user token, logging out the user 
     """
+
+    permission_classes = [permissions.AllowAny]
     
     def post(self, request):
         try:
