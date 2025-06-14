@@ -1,6 +1,6 @@
-# PING – Crisis Alert & Safety Management System
+# Guardians – Crisis Alert & Safety Management System
 
-**PING** is a real-time crisis response platform for organizations, combining location-aware alerts, multi-channel notifications, and an admin dashboard. Built to demonstrate advanced backend architecture, system design, and full-stack integration.
+**Guardians** is a real-time crisis response platform for organizations, combining location-aware alerts, multi-channel notifications, and an admin dashboard. Built to demonstrate advanced backend architecture, system design, and full-stack integration.
 
 ---
 
