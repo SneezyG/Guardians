@@ -18,7 +18,7 @@
 
 ## 🏗️ System Architecture
 
-**Frontend (React):**
+**Frontend (Svelte):**
 - Real-time UI with WebSockets.
 - Mobile-responsive dashboard.
 - Storybook-driven UI documentation.
